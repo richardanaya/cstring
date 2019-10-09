@@ -3,10 +3,14 @@ name = "cstring"
 version = "0.0.3"
 authors = ["Richard Anaya"]
 edition = "2018"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 description = "A super simple cstring library for web assembly"
 categories = ["wasm", "no-std"]
 
-[dependencies.cstr_core]
-git = "https://github.com/richardanaya/cstr_core.git"
-features = ["alloc"]
+[dependencies]
+cty = "0.2"
+memchr = { version = "2.0", default-features = false }	
+
+[features]
+default = ["alloc"]
+alloc = []

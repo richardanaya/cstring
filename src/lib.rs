@@ -1,6 +1,6 @@
 #![no_std]
+mod cstr_core;
 extern crate alloc;
-use cstr_core::*;
 use crate::alloc::borrow::ToOwned;
 use alloc::string::String;
 
@@ -11,6 +11,6 @@ pub fn cstr(s: &str) -> CString {
 }
 
 pub fn cstr_to_string(c: CString) -> String {
-    let s: &CStr = unsafe { CStr::from_ptr(c as *const i8) };
+    let s: &cstr_core::CStr = unsafe { cstr_core::CStr::from_ptr(c as *const i8) };
     s.to_str().unwrap().to_owned()
 }
