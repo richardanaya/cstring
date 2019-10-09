@@ -11,6 +11,6 @@ pub fn cstr(s: &str) -> CString {
 }
 
 pub fn cstr_to_string(c: CString) -> String {
-    let s: &cstr_core::CStr = unsafe { cstr_core::CStr::from_ptr(c as *const i8) };
+    let s: &cstr_core::CStr = unsafe { cstr_core::CStr::from_ptr(c as *const cstr_core::c_char) };
     s.to_str().unwrap().to_owned()
 }
