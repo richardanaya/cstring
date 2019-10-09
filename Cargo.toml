@@ -9,5 +9,4 @@ categories = ["wasm", "no-std"]
 
 [dependencies.cstr_core]
 git = "https://github.com/richardanaya/cstr_core.git"
-version = "0.1.2"
 features = ["alloc"]
