@@ -1,6 +1,6 @@
 # cstring
-A super simple library for c strings
+A super simple library for c strings in web assembly
 
 ```toml
 [dependencies]
-cstring = "0.0.2"
+cstring = "0.0.3"
