@@ -10,8 +10,6 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![no_std]
-
 #[cfg(test)]
 #[macro_use]
 extern crate std;
@@ -22,8 +20,6 @@ extern crate cty;
 extern crate memchr;
 
 #[cfg(feature = "alloc")]
-use alloc::sync::Arc;
-#[cfg(feature = "alloc")]
 use alloc::borrow::{Borrow, Cow, ToOwned};
 #[cfg(feature = "alloc")]
 use alloc::boxed::Box;
@@ -31,6 +27,8 @@ use alloc::boxed::Box;
 use alloc::rc::Rc;
 #[cfg(feature = "alloc")]
 use alloc::string::String;
+#[cfg(feature = "alloc")]
+use alloc::sync::Arc;
 #[cfg(feature = "alloc")]
 use alloc::vec::Vec;
 #[cfg(feature = "alloc")]
@@ -132,7 +130,7 @@ mod ascii {
             b'\\' => ([b'\\', b'\\', 0, 0], 2),
             b'\'' => ([b'\\', b'\'', 0, 0], 2),
             b'"' => ([b'\\', b'"', 0, 0], 2),
-            b'\x20'...b'\x7e' => ([c, 0, 0, 0], 1),
+            b'\x20'..=b'\x7e' => ([c, 0, 0, 0], 1),
             _ => ([b'\\', b'x', hexify(c >> 4), hexify(c & 0xf)], 4),
         };
 
@@ -143,7 +141,7 @@ mod ascii {
 
         fn hexify(b: u8) -> u8 {
             match b {
-                0...9 => b'0' + b,
+                0..=9 => b'0' + b,
                 _ => b'a' + b - 10,
             }
         }
@@ -670,7 +668,8 @@ impl From<CString> for Vec<u8> {
 impl fmt::Debug for CStr {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "\"")?;
-        for byte in self.to_bytes()
+        for byte in self
+            .to_bytes()
             .iter()
             .flat_map(|&b| ascii::escape_default(b))
         {
